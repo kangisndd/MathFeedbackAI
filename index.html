@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <title>수학 문제 분석기</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- TensorFlow.js와 Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <!-- Chart.js CDN 불러오기 -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -14,8 +13,12 @@
     <div class="upload-section">
       <label for="file-input" class="file-label">문제 이미지 업로드</label>
       <input type="file" id="file-input" accept="image/*" multiple>
-      <button id="analyze-btn">분석 시작</button>
     </div>
+    <!-- 업로드된 이미지와 정오 선택 UI가 표시될 영역 -->
+    <div id="preview-container"></div>
+    <!-- 결과를 분석 및 차트 표시하는 버튼 -->
+    <button id="analyze-btn">결과 보기</button>
+    <!-- 분석 결과 차트를 표시할 영역 -->
     <div class="chart-container">
       <canvas id="resultChart"></canvas>
     </div>
