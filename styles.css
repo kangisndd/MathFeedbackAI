@@ -75,6 +75,7 @@ button:hover {
   text-align: center;
 }
 
+/* 이미지가 너무 크면 카드 내에서 자동 조정 */
 .preview-card img {
   width: 100%;
   height: auto;
@@ -82,9 +83,16 @@ button:hover {
   margin-bottom: 10px;
 }
 
+/* 예측된 문제 유형 표시 */
 .predicted-type {
   font-size: 14px;
   margin-bottom: 10px;
+}
+
+/* 라디오 버튼 스타일 (확실하게 보이도록 display: block 처리) */
+.preview-card label {
+  display: block;
+  margin-top: 5px;
 }
 
 .chart-container {
