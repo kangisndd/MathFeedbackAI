@@ -17,7 +17,7 @@ const fileInput = document.getElementById('file-input');
 const previewContainer = document.getElementById('preview-container');
 const analyzeBtn = document.getElementById('analyze-btn');
 
-// 파일 선택 시 미리보기 카드 생성
+// 파일 선택 시, 미리보기 카드 생성
 fileInput.addEventListener('change', () => {
   console.log("파일 선택 이벤트 발생");
   previewContainer.innerHTML = ""; // 기존 미리보기 초기화
@@ -69,15 +69,12 @@ fileInput.addEventListener('change', () => {
     `;
     cardDiv.appendChild(radioDiv);
     
-    // 디버그용 로그: 카드 생성 여부 확인
-    console.log("카드 생성됨:", cardDiv);
-
     // 미리보기 카드 컨테이너에 추가
     previewContainer.appendChild(cardDiv);
   }
 });
 
-// "결과 보기" 버튼 클릭 시, 결과 집계 및 차트 출력
+// "결과 보기" 버튼 클릭 시, 결과 집계 및 차트, 분석 문구 출력
 analyzeBtn.addEventListener('click', () => {
   const cards = document.getElementsByClassName('preview-card');
   if (cards.length === 0) {
@@ -85,7 +82,7 @@ analyzeBtn.addEventListener('click', () => {
     return;
   }
   
-  // 문제 유형별로 '정'과 '오' 집계 (예: { "계산": {정: x, 오: y}, ... })
+  // 문제 유형별로 '정'과 '오' 집계 (예: { "계산": {정: x, 오: y}, "함수": {정: x, 오: y}, ... })
   const results = {};
   const possibleTypes = ["계산", "함수", "도형"];
   possibleTypes.forEach(type => { results[type] = {정: 0, 오: 0}; });
@@ -93,6 +90,7 @@ analyzeBtn.addEventListener('click', () => {
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
     const predictedTextEl = card.getElementsByClassName("predicted-type")[0];
+    // 예측 텍스트 예시: "예측: 계산"
     const predictedType = predictedTextEl.innerText.split(":")[1]?.trim();
     if (!predictedType || !possibleTypes.includes(predictedType)) {
       alert(`이미지 ${i + 1}의 문제 유형 예측이 완료되지 않았습니다.`);
@@ -106,7 +104,27 @@ analyzeBtn.addEventListener('click', () => {
     results[predictedType][selected.value]++;
   }
   
+  // 차트 그리기
   renderChart(results);
+
+  // 분석 결과 문구 생성
+  let totalProblems = 0;
+  let maxType = "";
+  let maxRatio = 0;
+  possibleTypes.forEach(type => {
+    const count = results[type]["정"] + results[type]["오"];
+    totalProblems += count;
+    if (count > 0) {
+      const ratio = (results[type]["오"] / count) * 100;
+      if (ratio > maxRatio) {
+        maxRatio = ratio;
+        maxType = type;
+      }
+    }
+  });
+  
+  const analysisText = `분석 결과: 총 ${totalProblems}개의 문제 중, ${maxType}에서 오답 비율이 ${maxRatio.toFixed(0)}%로 나타났습니다. 해당 유형에 대한 추가 학습이 필요해보입니다.`;
+  document.getElementById("analysis-result").innerText = analysisText;
 });
 
 // Chart.js를 사용해 문제 유형별 총 문제 수와 오답 건수를 겹쳐서 표시하는 함수
