@@ -26,11 +26,20 @@ h1 {
   color: #003366;
 }
 
+/* 문제 이미지 업로드 영역 박스 */
+.upload-box {
+  border: 2px solid #0073e6;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f0f8ff;
+}
+
+/* 업로드 섹션 스타일 */
 .upload-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .file-label {
@@ -98,7 +107,7 @@ button:hover {
   height: 400px;
 }
 
-/* 분석 결과 문구 스타일 수정: 최소 높이와 패딩 추가 */
+/* 분석 결과 문구 스타일 */
 #analysis-result {
   min-height: 30px;
   padding: 10px;
