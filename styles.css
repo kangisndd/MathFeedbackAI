@@ -26,9 +26,9 @@ h1 {
   color: #003366;
 }
 
-/* 업로드와 미리보기 영역을 감싸는 컨테이너 (빨간색 배경, 최소 높이 추가) */
+/* 업로드와 미리보기 영역을 감싸는 컨테이너 (빨간색 -> 회색으로 변경) */
 #upload-preview-container {
-  background-color: red;
+  background-color: gray;
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 10px;
