@@ -86,11 +86,7 @@ analyzeBtn.addEventListener('click', () => {
     results[predictedType][selected.value]++;
   }
   
-  renderChart(results);
-});
-
-// Chart.js를 사용해 문제 유형별 총 문제 수와 정답 건수를 겹쳐서 표시하는 함수
-function renderChart(data) {
+  function renderChart(data) {
   const ctx = document.getElementById('resultChart').getContext('2d');
   
   // 이전 차트가 있을 경우 제거
@@ -101,8 +97,8 @@ function renderChart(data) {
   const labels = Object.keys(data); // 예: ["계산", "함수", "도형"]
   // 총 문제 수: 정답 + 오답
   const totalCounts = labels.map(label => data[label]["정"] + data[label]["오"]);
-  // 정답 건수
-  const correctCounts = labels.map(label => data[label]["정"]);
+  // 오답 건수
+  const wrongCounts = labels.map(label => data[label]["오"]);
   
   window.myChart = new Chart(ctx, {
     type: 'bar',
@@ -116,9 +112,9 @@ function renderChart(data) {
           barThickness: 40
         },
         {
-          label: '정답 건수',
-          data: correctCounts,
-          backgroundColor: 'rgba(0, 123, 255, 0.9)',
+          label: '오답 건수',
+          data: wrongCounts,
+          backgroundColor: 'rgba(255, 99, 132, 0.9)',
           barThickness: 20
         }
       ]
