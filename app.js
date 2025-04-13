@@ -1,65 +1,78 @@
-let model;
-const modelURL = './model/model.json';
+// 파일 입력 요소와 미리보기 컨테이너, 분석 버튼을 가져옴
+const fileInput = document.getElementById('file-input');
+const previewContainer = document.getElementById('preview-container');
+const analyzeBtn = document.getElementById('analyze-btn');
 
-// 모델 로드
-async function loadModel() {
-  model = await tf.loadLayersModel(modelURL);
-  console.log("모델 로드 완료");
-}
-
-loadModel();
-
-// 파일 읽기 및 이미지 예측
-document.getElementById('analyze-btn').addEventListener('click', async () => {
-  const inputFiles = document.getElementById('file-input').files;
-  if (!model || inputFiles.length === 0) {
-    alert("모델이 로드되지 않았거나 이미지를 선택하지 않았습니다.");
-    return;
+// 파일이 선택될 때마다 미리보기 카드 생성 (각 카드에는 이미지와 '정' 또는 '오' 선택 라디오 버튼 포함)
+fileInput.addEventListener('change', () => {
+  previewContainer.innerHTML = ""; // 기존 미리보기 초기화
+  const files = fileInput.files;
+  for (let i = 0; i < files.length; i++) {
+    // 카드 요소 생성
+    const cardDiv = document.createElement('div');
+    cardDiv.className = "preview-card";
+    
+    // 이미지 요소 생성
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(files[i]);
+    cardDiv.appendChild(img);
+    
+    // 라디오 버튼 요소 생성 (정/오 선택)
+    const radioDiv = document.createElement('div');
+    radioDiv.innerHTML = `
+      <label><input type="radio" name="result_${i}" value="정"> 정</label>
+      <label><input type="radio" name="result_${i}" value="오"> 오</label>
+    `;
+    cardDiv.appendChild(radioDiv);
+    previewContainer.appendChild(cardDiv);
   }
-
-  // 각 문제 이미지에 대해 예측 수행 (예: 각 이미지가 '계산', '함수', '도형' 중 어느 것인지)
-  let predictionCounts = {
-    계산: 0,
-    함수: 0,
-    도형: 0
-  };
-
-  for (let file of inputFiles) {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    await new Promise((resolve) => {
-      img.onload = () => {
-        // 이미지 전처리 (예: 모델이 요구하는 크기로 조정)
-        const tensor = tf.browser.fromPixels(img).resizeNearestNeighbor([224, 224]).toFloat();
-        const normalized = tensor.div(255.0).expandDims();
-        // 예측 수행
-        model.predict(normalized).data().then(prediction => {
-          // 예시: 예측 결과 배열의 인덱스별로 각 유형에 해당한다고 가정
-          const maxIndex = prediction.indexOf(Math.max(...prediction));
-          if (maxIndex === 0) predictionCounts.계산++;
-          else if (maxIndex === 1) predictionCounts.함수++;
-          else if (maxIndex === 2) predictionCounts.도형++;
-          resolve();
-        });
-      }
-    });
-  }
-
-  // 예측 결과 차트로 시각화
-  renderChart(predictionCounts);
 });
 
-// 차트 생성 함수 (Chart.js 이용)
+// 결과 보기 버튼 클릭 시, 각 이미지별 정오 선택 결과를 집계하여 차트로 표시
+analyzeBtn.addEventListener('click', () => {
+  const files = fileInput.files;
+  if (files.length === 0) {
+    alert("이미지를 업로드 해주세요, 주인님.");
+    return;
+  }
+  
+  let correctCount = 0;
+  let wrongCount = 0;
+  
+  for (let i = 0; i < files.length; i++) {
+    const selected = document.querySelector(`input[name="result_${i}"]:checked`);
+    if (!selected) {
+      alert(`이미지 ${i + 1}에 대해 정오 선택을 해주세요, 주인님.`);
+      return;
+    }
+    if (selected.value === "정") correctCount++;
+    else if (selected.value === "오") wrongCount++;
+  }
+  
+  // 결과 데이터를 객체 형태로 전달하고 차트를 렌더링
+  renderChart({정: correctCount, 오: wrongCount});
+});
+
+// Chart.js를 이용해 결과 차트를 생성하는 함수
 function renderChart(data) {
   const ctx = document.getElementById('resultChart').getContext('2d');
-  new Chart(ctx, {
+  
+  // 이전 차트가 존재하면 파괴
+  if (window.myChart) {
+    window.myChart.destroy();
+  }
+  
+  window.myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: Object.keys(data),
       datasets: [{
-        label: '오답 발생 건수',
+        label: '문제 결과',
         data: Object.values(data),
-        backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)']
+        backgroundColor: [
+          'rgba(0, 123, 255, 0.5)',  // 정
+          'rgba(255, 99, 132, 0.5)'   // 오
+        ]
       }]
     },
     options: {
