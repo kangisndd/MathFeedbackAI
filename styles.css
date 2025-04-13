@@ -41,11 +41,12 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* 파일 입력 및 버튼 스타일 */
+/* 파일 입력 버튼 스타일 */
 input[type="file"] {
   margin-bottom: 10px;
 }
 
+/* 버튼 스타일 */
 button {
   background-color: #0073e6;
   border: none;
@@ -55,10 +56,37 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 20px;
 }
 
 button:hover {
   background-color: #005bb5;
+}
+
+/* 미리보기 컨테이너 스타일 */
+#preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* 각 미리보기 카드 */
+.preview-card {
+  border: 1px solid #cccccc;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  width: 150px;
+  text-align: center;
+}
+
+.preview-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
 /* 차트 영역 */
