@@ -87,7 +87,7 @@ button:hover {
   margin-bottom: 10px;
 }
 
-/* 라디오 버튼은 block 단위로 표시하여 확실하게 보이도록 함 */
+/* 라디오 버튼은 block 단위로 표시 */
 .preview-card label {
   display: block;
   margin-top: 5px;
@@ -98,10 +98,12 @@ button:hover {
   height: 400px;
 }
 
-/* 분석 결과 문구 스타일 */
+/* 분석 결과 문구 스타일 수정: 최소 높이와 패딩 추가 */
 #analysis-result {
+  min-height: 30px;
+  padding: 10px;
+  margin-top: 20px;
   text-align: center;
   font-size: 16px;
-  margin-top: 20px;
   color: #003366;
 }
