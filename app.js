@@ -17,12 +17,15 @@ const fileInput = document.getElementById('file-input');
 const previewContainer = document.getElementById('preview-container');
 const analyzeBtn = document.getElementById('analyze-btn');
 
-// 파일 선택 시, 미리보기 카드 생성
+// 파일 선택 시 미리보기 카드 생성
 fileInput.addEventListener('change', () => {
   console.log("파일 선택 이벤트 발생");
   previewContainer.innerHTML = ""; // 기존 미리보기 초기화
   const files = fileInput.files;
-  if (files.length === 0) return;
+  if (files.length === 0) {
+    console.log("선택된 파일 없음");
+    return;
+  }
   
   for (let i = 0; i < files.length; i++) {
     // 미리보기 카드 생성
@@ -41,7 +44,7 @@ fileInput.addEventListener('change', () => {
     predictedText.innerText = "예측 중...";
     cardDiv.appendChild(predictedText);
     
-    // 이미지 로드 후, AI 모델을 이용해 문제 유형 예측 (224×224, 정규화)
+    // 이미지 로드 후, AI 모델을 이용한 문제 유형 예측 (224×224, 정규화)
     img.onload = async () => {
       try {
         let tensor = tf.browser.fromPixels(img)
@@ -50,7 +53,7 @@ fileInput.addEventListener('change', () => {
         tensor = tensor.div(tf.scalar(255.0)).expandDims();
         const prediction = await model.predict(tensor).data();
         const maxIdx = prediction.indexOf(Math.max(...prediction));
-        const labels = ["계산", "함수", "도형"]; // 학습 시 정의한 순서와 동일해야 함
+        const labels = ["계산", "함수", "도형"]; // 학습 시 정의한 순서와 동일
         predictedText.innerText = "예측: " + labels[maxIdx];
       } catch (error) {
         console.error("Prediction error", error);
@@ -66,6 +69,9 @@ fileInput.addEventListener('change', () => {
     `;
     cardDiv.appendChild(radioDiv);
     
+    // 디버그용 로그: 카드 생성 여부 확인
+    console.log("카드 생성됨:", cardDiv);
+
     // 미리보기 카드 컨테이너에 추가
     previewContainer.appendChild(cardDiv);
   }
@@ -79,7 +85,7 @@ analyzeBtn.addEventListener('click', () => {
     return;
   }
   
-  // 문제 유형별로 '정'과 '오' 집계
+  // 문제 유형별로 '정'과 '오' 집계 (예: { "계산": {정: x, 오: y}, ... })
   const results = {};
   const possibleTypes = ["계산", "함수", "도형"];
   possibleTypes.forEach(type => { results[type] = {정: 0, 오: 0}; });
@@ -87,7 +93,6 @@ analyzeBtn.addEventListener('click', () => {
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
     const predictedTextEl = card.getElementsByClassName("predicted-type")[0];
-    // 예측 텍스트 예: "예측: 계산"
     const predictedType = predictedTextEl.innerText.split(":")[1]?.trim();
     if (!predictedType || !possibleTypes.includes(predictedType)) {
       alert(`이미지 ${i + 1}의 문제 유형 예측이 완료되지 않았습니다.`);
@@ -104,7 +109,7 @@ analyzeBtn.addEventListener('click', () => {
   renderChart(results);
 });
 
-// Chart.js를 사용해 문제 유형별 총 문제 수와 오답 건수를 겹쳐서 표시
+// Chart.js를 사용해 문제 유형별 총 문제 수와 오답 건수를 겹쳐서 표시하는 함수
 function renderChart(data) {
   const ctx = document.getElementById('resultChart').getContext('2d');
   
