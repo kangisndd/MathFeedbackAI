@@ -82,7 +82,7 @@ analyzeBtn.addEventListener('click', () => {
     return;
   }
   
-  // 문제 유형별로 '정'과 '오' 집계 (예: { "계산": {정: x, 오: y}, "함수": {정: x, 오: y}, ... })
+  // 문제 유형별로 '정'과 '오' 집계 (예: { "계산": {정: x, 오: y}, ... })
   const results = {};
   const possibleTypes = ["계산", "함수", "도형"];
   possibleTypes.forEach(type => { results[type] = {정: 0, 오: 0}; });
@@ -124,6 +124,7 @@ analyzeBtn.addEventListener('click', () => {
   });
   
   const analysisText = `분석 결과: 총 ${totalProblems}개의 문제 중, ${maxType}에서 오답 비율이 ${maxRatio.toFixed(0)}%로 나타났습니다. 해당 유형에 대한 추가 학습이 필요해보입니다.`;
+  console.log("생성된 분석 문구:", analysisText);
   document.getElementById("analysis-result").innerText = analysisText;
 });
 
