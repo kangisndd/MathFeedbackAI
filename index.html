@@ -1,1 +1,20 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>수학 문제 분석기</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- TensorFlow.js와 Chart.js CDN 불러오기 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>문제 분석기</h1>
+  <!-- 이미지 업로드 입력창 -->
+  <input type="file" id="file-input" accept="image/*" multiple>
+  <button id="analyze-btn">분석 시작</button>
+  <!-- 예측 결과를 보여줄 영역 (예: 캔버스) -->
+  <canvas id="resultChart"></canvas>
+  <script src="app.js"></script>
+</body>
+</html>
