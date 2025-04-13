@@ -1,10 +1,10 @@
-/* 전체 배경 및 텍스트 색상 설정 */
+/* 전체 배경 및 텍스트 색상 (푸른색 테마) */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #e6f2ff;  /* 밝은 파란색 배경 */
-  color: #003366;             /* 어두운 파란 텍스트 */
+  background-color: #e6f2ff;
+  color: #003366;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@ h1 {
   color: #003366;
 }
 
-/* 업로드 섹션 레이아웃 */
+/* 업로드 섹션 스타일 */
 .upload-section {
   display: flex;
   flex-direction: column;
@@ -41,7 +41,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* 파일 입력 버튼 스타일 */
 input[type="file"] {
   margin-bottom: 10px;
 }
@@ -63,7 +62,7 @@ button:hover {
   background-color: #005bb5;
 }
 
-/* 미리보기 컨테이너 스타일 */
+/* 미리보기 컨테이너 및 카드 스타일 */
 #preview-container {
   display: flex;
   flex-wrap: wrap;
@@ -72,7 +71,6 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* 각 미리보기 카드 */
 .preview-card {
   border: 1px solid #cccccc;
   padding: 10px;
@@ -86,6 +84,12 @@ button:hover {
   width: 100%;
   height: auto;
   border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* 예측된 문제 유형 표시 */
+.predicted-type {
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
