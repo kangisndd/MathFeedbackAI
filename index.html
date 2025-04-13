@@ -1,25 +1,68 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>수학 문제 분석기</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- TensorFlow.js와 Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <div class="container">
-    <h1>수학 문제 분석기</h1>
-    <div class="upload-section">
-      <label for="file-input" class="file-label">문제 이미지 업로드</label>
-      <input type="file" id="file-input" accept="image/*" multiple>
-      <button id="analyze-btn">분석 시작</button>
-    </div>
-    <div class="chart-container">
-      <canvas id="resultChart"></canvas>
-    </div>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+/* 전체 배경 및 텍스트 색상 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #e6f2ff;  /* 밝은 파란색 배경 */
+  color: #003366;             /* 어두운 파란 텍스트 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* 중앙 정렬된 컨테이너 */
+.container {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 헤더 스타일 */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #003366;
+}
+
+/* 업로드 섹션 레이아웃 */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.file-label {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* 파일 입력 및 버튼 스타일 */
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #0073e6;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #005bb5;
+}
+
+/* 차트 영역 */
+.chart-container {
+  width: 100%;
+  height: 400px;
+}
