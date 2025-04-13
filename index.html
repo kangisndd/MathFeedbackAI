@@ -12,25 +12,23 @@
   <div class="container">
     <h1>수학 문제 분석기</h1>
     
-    <!-- 문제 이미지 업로드 영역 (업데이트된 박스 스타일 적용) -->
-    <div class="upload-box">
-      <div class="upload-section">
-        <label for="file-input" class="file-label">문제 이미지 업로드</label>
-        <input type="file" id="file-input" accept="image/*" multiple>
+    <!-- 업로드와 미리보기 영역을 함께 감싸는 컨테이너 -->
+    <div id="upload-preview-container">
+      <div class="upload-box">
+        <div class="upload-section">
+          <label for="file-input" class="file-label">문제 이미지 업로드</label>
+          <input type="file" id="file-input" accept="image/*" multiple>
+        </div>
       </div>
+      <div id="preview-container"></div>
     </div>
-    
-    <!-- 이미지 미리보기, AI 예측 및 정/오 선택 UI 영역 -->
-    <div id="preview-container"></div>
     
     <button id="analyze-btn">결과 보기</button>
     
-    <!-- 결과 차트 영역 -->
     <div class="chart-container">
       <canvas id="resultChart"></canvas>
     </div>
     
-    <!-- 분석 결과 문구 영역 -->
     <div id="analysis-result"></div>
   </div>
   <script src="app.js"></script>
